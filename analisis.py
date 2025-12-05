@@ -16,8 +16,13 @@ def analizar_ventas(ventas):
         productos_mas_vendidos = df.groupby('Producto')['Cantidad'].sum().idxmax()
         print(f"Producto más vendido: {productos_mas_vendidos}")
         
-        producto_mayor_ingreso = df.groupby('Producto')['subtotal'].sum().idxmax()
-        print(f"Producto que generó mayor ingreso: {producto_mayor_ingreso}")
+        producto_top =df['subtotal'].max()
+        fila_venta_max = df.loc[df['subtotal'].idxmax()]
+        print(f"Producto con mayor venta individual: {fila_venta_max['Producto']} con un subtotal de ${producto_top:,.2f}") 
+        
+        producto_mayor_ingreso = fila_venta_max['Producto']
+        monto_mayoer_ingreso = fila_venta_max['subtotal']
+        print(f"Producto que generó mayor ingreso: {producto_mayor_ingreso} con un monto de ${monto_mayoer_ingreso:,.2f}")
         
         #Mejor cliente
         mejor_cliente = df.groupby('Cliente')['subtotal'].sum().idxmax()
@@ -27,6 +32,9 @@ def analizar_ventas(ventas):
         print("\n--- Resumen de Ventas por Fecha ---")
         resumen_fecha = df.groupby("Fecha")["subtotal"].sum().to_string()
         print(resumen_fecha)
+        
+        
+        
         
         
     except Exception as e:
